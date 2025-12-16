@@ -1,4 +1,4 @@
-import { db } from "./index"
+import { db } from "./index.js"
 import { wishes } from "./schema"
 import { eq, desc } from "drizzle-orm"
 
@@ -24,9 +24,6 @@ export async function fulfillWish(id: number) {
     .where(eq(wishes.id, id))
     .run()
 
-  // better-sqlite3's run() returns { changes: number }
-  // drizzle passthrough before .all()/.get(), so res has .changes
-  // TypeScript thinks run() is void; we rely on runtime shape and cast.
   return { changes: (res as any).changes ?? 0 }
 }
 
